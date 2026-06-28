@@ -1,19 +1,23 @@
 // ================= THEME =================
 
-const themeBtn = document.getElementById("themeBtn");
+document.addEventListener("DOMContentLoaded", function() {
 
-themeBtn.onclick = () => {
+    const themeBtn = document.getElementById("themeBtn");
 
-    document.body.classList.toggle("dark");
-
-    if(document.body.classList.contains("dark")){
-        themeBtn.innerHTML="☀️";
+    if(themeBtn){
+        themeBtn.onclick = () => {
+            document.body.classList.toggle("dark");
+            if(document.body.classList.contains("dark")){
+                themeBtn.innerHTML = "☀️";
+            } else {
+                themeBtn.innerHTML = "🌙";
+            }
+        };
     }
-    else{
-        themeBtn.innerHTML="🌙";
-    }
 
-};
+    showHistory();
+
+});
 
 
 
@@ -282,6 +286,12 @@ Number(document.getElementById("gstRate").value);
 let gst=amount*rate/100;
 
 
+if(!amount || !rate){
+alert("Enter all values");
+return;
+}
+
+
 let total=amount+gst;
 
 
@@ -453,7 +463,3 @@ showHistory();
 
 
 }
-
-
-
-showHistory();
