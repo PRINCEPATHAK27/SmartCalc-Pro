@@ -25,10 +25,10 @@ body{
 
 /* Dark Mode */
 body.dark{
-    --bg:#276221;
+    --bg:#043927;
     --card:#87AE73;
-    --text:#F0E6DC;
-    --accent:#C49A72;
+    --text:#01796F;
+    --accent:#C7EA46;
 }
 
 
