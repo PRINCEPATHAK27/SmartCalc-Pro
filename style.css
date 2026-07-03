@@ -10,10 +10,10 @@
     --primary-hover:#1A8FC1;
     --dark:#111827;
     --bg:#D6D3CE;
-    --card:#043927;
+    --card:#EDEAE5;
     --text:#2C1A0E;
     --accent:#A0714F;
-    --hero-from:#FFB6C1;
+    --hero-from:#7B4F2E;
     --hero-to:#A0714F;
 }
 
@@ -25,10 +25,10 @@ body{
 
 /* Dark Mode */
 body.dark{
-    --bg:#043927;
-    --card:#87AE73;
-    --text:#01796F;
-    --accent:#C7EA46;
+    --bg:#1C1714;
+    --card:#2A2118;
+    --text:#F0E6DC;
+    --accent:#C49A72;
 }
 
 
@@ -46,6 +46,18 @@ header{
     box-shadow:0 5px 20px rgba(0,0,0,.12);
 }
 
+.logo-wrap{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.header-photo{
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    object-fit:cover;
+    object-position:center top;
 .logo{
     font-size:28px;
     font-weight:700;
@@ -86,6 +98,24 @@ nav button{
     text-align:center;
     background:linear-gradient(135deg, var(--hero-from), var(--hero-to));
     color:white;
+}
+
+.hero-content{
+    text-align:left;
+    flex:1;
+}
+
+.hero-photo{
+    flex-shrink:0;
+}
+
+.hero-photo img{
+    width:260px;
+    height:320px;
+    object-fit:cover;
+    border-radius:24px;
+    border:4px solid rgba(255,255,255,.3);
+    box-shadow:0 20px 50px rgba(0,0,0,.4);
 }
 
 .hero h1{
@@ -275,6 +305,21 @@ header{
     gap:15px;
 }
 
+.hero{
+    flex-direction:column;
+    text-align:center;
+    gap:30px;
+}
+
+.hero-content{
+    text-align:center;
+}
+
+.hero-photo img{
+    width:180px;
+    height:220px;
+}
+
 nav{
     gap:15px;
 }
@@ -292,3 +337,56 @@ section{
 }
 
 }
+
+/* ===== TILES (Home Page) ===== */
+#tiles{ padding:60px 8%; }
+
+.tiles-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));
+  gap:20px;
+}
+
+.tile{
+  background:var(--card);
+  border-radius:20px;
+  padding:28px 20px;
+  text-align:center;
+  text-decoration:none;
+  color:var(--text);
+  box-shadow:0 8px 24px rgba(0,0,0,.08);
+  transition:transform .2s, box-shadow .2s;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  border:2px solid transparent;
+}
+
+.tile:hover{
+  transform:translateY(-8px);
+  box-shadow:0 16px 40px rgba(0,0,0,.15);
+  border-color:var(--primary);
+}
+
+.tile-icon{ font-size:40px; }
+
+.tile-name{
+  font-size:15px;
+  font-weight:700;
+  color:var(--text);
+}
+
+.tile-desc{
+  font-size:12px;
+  color:#888;
+}
+
+.tile-special{
+  background:linear-gradient(135deg,#0A0C10,#14181F);
+  color:#E8EAED;
+}
+
+.tile-special .tile-name{ color:#FFB020; }
+.tile-special .tile-desc{ color:#6B7480; }
+.tile-special:hover{ border-color:#FFB020; }
