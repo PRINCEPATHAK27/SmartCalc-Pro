@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculators — SmartCalc Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">SmartCalc <span>Pro</span></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="calculators.html">Calculators</a>
+    <a href="videowall.html">Views Increaser</a>
+    <button id="themeBtn">🌙</button>
+  </nav>
+</header>
+
+<section id="calculators" style="padding-top:40px;">
+<h2 class="section-title">All Calculators</h2>
+<div class="calculator-grid">
+
+<!-- Basic -->
+<div class="card" id="basic">
+<h3>🧮 Basic Calculator</h3>
+<input id="display" type="text" readonly>
+<div class="calc-buttons">
+<button onclick="press('7')">7</button>
+<button onclick="press('8')">8</button>
+<button onclick="press('9')">9</button>
+<button onclick="press('/')">÷</button>
+<button onclick="press('4')">4</button>
+<button onclick="press('5')">5</button>
+<button onclick="press('6')">6</button>
+<button onclick="press('*')">×</button>
+<button onclick="press('1')">1</button>
+<button onclick="press('2')">2</button>
+<button onclick="press('3')">3</button>
+<button onclick="press('-')">−</button>
+<button onclick="clearDisplay()">C</button>
+<button onclick="press('0')">0</button>
+<button onclick="calculate()">=</button>
+<button onclick="press('+')">+</button>
+</div>
+</div>
+
+<!-- Age -->
+<div class="card" id="age">
+<h3>🎂 Age Calculator</h3>
+<input type="date" id="dob">
+<button onclick="calculateAge()">Calculate Age</button>
+<p id="ageResult"></p>
+</div>
+
+<!-- EMI -->
+<div class="card" id="emi">
+<h3>🏦 EMI Calculator</h3>
+<input type="number" id="loan" placeholder="Loan Amount">
+<input type="number" id="rate" placeholder="Interest Rate %">
+<input type="number" id="years" placeholder="Years">
+<button onclick="calculateEMI()">Calculate EMI</button>
+<p id="emiResult"></p>
+</div>
+
+<!-- SIP -->
+<div class="card" id="sip">
+<h3>📈 SIP Calculator</h3>
+<input type="number" id="sipAmount" placeholder="Monthly Investment">
+<input type="number" id="sipRate" placeholder="Expected Return %">
+<input type="number" id="sipYears" placeholder="Years">
+<button onclick="calculateSIP()">Calculate SIP</button>
+<p id="sipResult"></p>
+</div>
+
+<!-- Percentage -->
+<div class="card" id="percentage">
+<h3>📊 Percentage</h3>
+<input type="number" id="percentValue" placeholder="Value">
+<input type="number" id="percentTotal" placeholder="Total">
+<button onclick="calculatePercentage()">Calculate</button>
+<p id="percentResult"></p>
+</div>
+
+<!-- GST -->
+<div class="card" id="gst">
+<h3>💰 GST Calculator</h3>
+<input type="number" id="gstAmount" placeholder="Amount">
+<input type="number" id="gstRate" placeholder="GST %">
+<button onclick="calculateGST()">Calculate GST</button>
+<p id="gstResult"></p>
+</div>
+
+<!-- BMI -->
+<div class="card" id="bmi">
+<h3>⚖️ BMI Calculator</h3>
+<input type="number" id="weight" placeholder="Weight (KG)">
+<input type="number" id="height" placeholder="Height (CM)">
+<button onclick="calculateBMI()">Calculate BMI</button>
+<p id="bmiResult"></p>
+</div>
+
+<!-- Shape -->
+<div class="card" id="shape">
+<h3>📐 Shape Calculator</h3>
+<select id="shapeSelect" onchange="showShapeInputs()">
+  <option value="">-- Select Shape --</option>
+  <option value="circle">Circle</option>
+  <option value="rectangle">Rectangle</option>
+  <option value="square">Square</option>
+  <option value="triangle">Triangle</option>
+  <option value="parallelogram">Parallelogram</option>
+  <option value="trapezoid">Trapezoid</option>
+  <option value="ellipse">Ellipse</option>
+  <option value="rhombus">Rhombus</option>
+</select>
+<div class="shape-inputs" id="inputs-circle"><input type="number" id="circle-r" placeholder="Radius"></div>
+<div class="shape-inputs" id="inputs-rectangle"><input type="number" id="rect-l" placeholder="Length"><input type="number" id="rect-w" placeholder="Width"></div>
+<div class="shape-inputs" id="inputs-square"><input type="number" id="sq-s" placeholder="Side"></div>
+<div class="shape-inputs" id="inputs-triangle"><input type="number" id="tri-a" placeholder="Side A"><input type="number" id="tri-b" placeholder="Side B"><input type="number" id="tri-c" placeholder="Side C"><input type="number" id="tri-h" placeholder="Height (for Area)"></div>
+<div class="shape-inputs" id="inputs-parallelogram"><input type="number" id="para-b" placeholder="Base"><input type="number" id="para-h" placeholder="Height"><input type="number" id="para-s" placeholder="Side"></div>
+<div class="shape-inputs" id="inputs-trapezoid"><input type="number" id="trap-a" placeholder="Side A (top)"><input type="number" id="trap-b" placeholder="Side B (bottom)"><input type="number" id="trap-c" placeholder="Side C (leg)"><input type="number" id="trap-d" placeholder="Side D (leg)"><input type="number" id="trap-h" placeholder="Height (for Area)"></div>
+<div class="shape-inputs" id="inputs-ellipse"><input type="number" id="ellipse-a" placeholder="Semi-Major Axis (a)"><input type="number" id="ellipse-b" placeholder="Semi-Minor Axis (b)"></div>
+<div class="shape-inputs" id="inputs-rhombus"><input type="number" id="rhom-d1" placeholder="Diagonal 1"><input type="number" id="rhom-d2" placeholder="Diagonal 2"><input type="number" id="rhom-s" placeholder="Side"></div>
+<button onclick="calculateShape()">Calculate Area & Perimeter</button>
+<p id="shapeResult"></p>
+</div>
+
+</div>
+</section>
+
+<!-- History -->
+<section id="history">
+<h2 class="section-title">Calculation History</h2>
+<div class="history-box">
+<ul id="historyList"></ul>
+<button onclick="clearHistory()">Clear History</button>
+</div>
+</section>
+
+<footer>
+<p>© 2026 SmartCalc Pro | All Rights Reserved</p>
+</footer>
+
+<script src="main.js"></script>
+<script>
+  // Scroll to hash on load
+  window.addEventListener('load', function(){
+    if(location.hash){
+      const el = document.querySelector(location.hash);
+      if(el) setTimeout(()=> el.scrollIntoView({behavior:'smooth', block:'center'}), 200);
+    }
+  });
+</script>
+</body>
+</html>
