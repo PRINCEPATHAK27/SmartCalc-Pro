@@ -1,244 +1,221 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Views Increaser — SmartCalc Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+  .vw-wrap { background:#0A0C10; min-height:calc(100vh - 60px); }
 
-  :root{
-    --bg:#0A0C10;
-    --panel:#14181F;
-    --panel-edge:#232A34;
-    --amber:#FFB020;
-    --amber-dim:#7A5A18;
-    --text:#E8EAED;
-    --muted:#6B7480;
-    --red:#FF4B3E;
-    --green:#5FD87A;
+  .vw-toolbar {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 5%; background:#12151B;
+    border-bottom:1px solid #232A34; flex-wrap:wrap; gap:10px;
   }
-  *{box-sizing:border-box;}
-  html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;}
 
-  .rack{
-    display:flex;align-items:center;justify-content:space-between;
-    gap:16px;padding:14px 20px;
-    background:linear-gradient(180deg,#12151B,#0D0F13);
-    border-bottom:1px solid var(--panel-edge);
-    flex-wrap:wrap;
+  .vw-brand { display:flex; align-items:center; gap:10px; }
+  .vw-dot { width:9px; height:9px; border-radius:50%; background:#FF4B3E; box-shadow:0 0 8px #FF4B3E; animation:vpulse 1.8s infinite; }
+  .vw-brand h2 { font-family:'IBM Plex Mono',monospace; font-size:14px; color:#E8EAED; letter-spacing:2px; margin:0; }
+  .vw-brand span { font-size:11px; color:#6B7480; font-family:'IBM Plex Mono',monospace; }
+
+  .vw-layouts { display:flex; gap:6px; flex-wrap:wrap; }
+  .vw-lb {
+    font-family:'IBM Plex Mono',monospace; background:#14181F;
+    border:1px solid #232A34; color:#6B7480;
+    padding:6px 13px; border-radius:6px; cursor:pointer;
+    font-size:12px; letter-spacing:1px; width:auto; margin:0;
+    transition:all .15s;
   }
-  .brand{display:flex;align-items:baseline;gap:10px;}
-  .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red);animation:pulse 1.8s infinite;}
-  .brand h1{font-family:'IBM Plex Mono',monospace;font-size:15px;letter-spacing:2px;margin:0;font-weight:600;text-transform:uppercase;}
-  .brand span{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:1px;}
+  .vw-lb:hover { border-color:#FFB020; color:#E8EAED; background:#14181F; }
+  .vw-lb.active { background:#FFB020; color:#1a1200; border-color:#FFB020; font-weight:700; }
 
-  .layout-picker{display:flex;gap:6px;align-items:center;}
-  .layout-picker button{
+  #vwGrid {
+    display:grid; gap:10px; padding:12px 5%;
+    min-height:calc(100vh - 130px);
+  }
+
+  .vw-monitor {
+    background:#14181F; border:1px solid #232A34;
+    border-radius:12px; overflow:hidden;
+    display:flex; flex-direction:column; min-height:180px;
+  }
+
+  .vw-head {
+    display:flex; align-items:center; gap:8px;
+    padding:8px 12px; background:#101318;
+    border-bottom:1px solid #232A34;
+  }
+
+  .vw-led { width:7px; height:7px; border-radius:50%; background:#3A3F47; flex-shrink:0; }
+  .vw-led.live { background:#5FD87A; box-shadow:0 0 6px #5FD87A; }
+  .vw-ch { font-family:'IBM Plex Mono',monospace; font-size:11px; color:#6B7480; white-space:nowrap; }
+
+  .vw-form { flex:1; display:flex; gap:6px; min-width:0; }
+  .vw-form input {
+    flex:1; background:#0B0D11; border:1px solid #232A34;
+    color:#E8EAED; font-family:'IBM Plex Mono',monospace;
+    font-size:11px; padding:6px 8px; border-radius:6px;
+    outline:none; margin:0;
+  }
+  .vw-form input:focus { border-color:#FFB020; }
+  .vw-form button {
+    background:#232A34; border:1px solid #232A34; color:#E8EAED;
+    padding:6px 10px; border-radius:6px; cursor:pointer;
+    font-size:12px; width:auto; margin:0; flex-shrink:0;
     font-family:'IBM Plex Mono',monospace;
-    background:var(--panel);border:1px solid var(--panel-edge);color:var(--muted);
-    padding:7px 12px;border-radius:4px;cursor:pointer;font-size:12px;letter-spacing:1px;
-    transition:all .15s ease;
   }
-  .layout-picker button:hover{border-color:var(--amber-dim);color:var(--text);}
-  .layout-picker button.active{background:var(--amber);color:#1a1200;border-color:var(--amber);font-weight:600;}
+  .vw-form button:hover { background:#FFB020; color:#1a1200; transform:none; opacity:1; }
 
-  .grid{
-    display:grid;gap:10px;padding:14px;
-    height:calc(100vh - 66px);
+  .vw-body {
+    flex:1; background:#000;
+    display:flex; align-items:center; justify-content:center;
   }
+  .vw-body iframe, .vw-body video { width:100%; height:100%; border:0; display:block; }
+  .vw-placeholder { color:#6B7480; font-family:'IBM Plex Mono',monospace; font-size:12px; text-align:center; padding:20px; }
+  .vw-placeholder .big { font-size:32px; display:block; margin-bottom:8px; opacity:.4; }
 
-  .monitor{
-    position:relative;background:var(--panel);
-    border:1px solid var(--panel-edge);
-    border-radius:6px;overflow:hidden;
-    display:flex;flex-direction:column;
-    min-height:120px;
+  .vw-hint {
+    padding:10px 5%; font-family:'IBM Plex Mono',monospace;
+    font-size:11px; color:#6B7480; background:#0A0C10;
+    border-top:1px solid #232A34; text-align:center;
   }
-  .monitor-head{
-    display:flex;align-items:center;justify-content:space-between;
-    padding:8px 10px;background:#101318;border-bottom:1px solid var(--panel-edge);
-    gap:8px;
-  }
-  .ch-label{
-    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:var(--muted);
-    display:flex;align-items:center;gap:6px;white-space:nowrap;
-  }
-  .status-led{width:7px;height:7px;border-radius:50%;background:#3A3F47;flex-shrink:0;}
-  .status-led.live{background:var(--green);box-shadow:0 0 6px var(--green);}
+  .vw-hint b { color:#FFB020; }
 
-  .url-form{flex:1;display:flex;gap:6px;min-width:0;}
-  .url-form input{
-    flex:1;min-width:0;background:#0B0D11;border:1px solid var(--panel-edge);
-    color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:11.5px;
-    padding:6px 8px;border-radius:3px;outline:none;
-  }
-  .url-form input:focus{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber-dim);}
-  .url-form button, .icon-btn{
-    background:var(--panel-edge);border:1px solid var(--panel-edge);color:var(--text);
-    padding:6px 10px;border-radius:3px;cursor:pointer;font-size:11px;font-family:'IBM Plex Mono',monospace;
-    flex-shrink:0;transition:background .15s;
-  }
-  .url-form button:hover, .icon-btn:hover{background:var(--amber-dim);}
+  @keyframes vpulse { 0%,100%{opacity:1;} 50%{opacity:.3;} }
 
-  .screen-body{flex:1;position:relative;background:#000;display:flex;align-items:center;justify-content:center;min-height:0;}
-  .screen-body iframe, .screen-body video{width:100%;height:100%;border:0;display:block;}
-  .placeholder{
-    color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:12px;
-    text-align:center;padding:20px;letter-spacing:0.5px;
-  }
-  .placeholder .big{font-size:28px;display:block;margin-bottom:8px;opacity:.4;}
-
-  .hint{
-    padding:8px 20px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);
-    border-top:1px solid var(--panel-edge);letter-spacing:0.5px;
-  }
-  .hint b{color:var(--amber);font-weight:600;}
-
-  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
-
-  @media (max-width:700px){
-    .grid{grid-template-columns:1fr !important;}
-    .rack{padding:10px 12px;}
-    .hint{display:none;}
+  @media(max-width:600px){
+    #vwGrid { grid-template-columns:1fr !important; }
+    .vw-hint { display:none; }
   }
 </style>
 </head>
 <body>
 
-<div class="rack">
-  <div class="brand">
-    <div class="dot"></div>
-    <h1>Views Increaser</h1>
-    <span>BOOST YOUR VIDEO VIEWS</span>
+<header>
+  <div class="logo">SmartCalc <span>Pro</span></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="calculators.html">Calc</a>
+    <a href="videowall.html" class="active">Views+</a>
+    <button id="themeBtn">🌙</button>
+  </nav>
+</header>
+
+<div class="vw-wrap">
+
+  <div class="vw-toolbar">
+    <div class="vw-brand">
+      <div class="vw-dot"></div>
+      <div>
+        <h2>VIEWS INCREASER</h2>
+        <span>MULTI-SCREEN LOOP PLAYER 🚀</span>
+      </div>
+    </div>
+    <div class="vw-layouts" id="vwLayouts">
+      <button class="vw-lb" data-n="1">1</button>
+      <button class="vw-lb" data-n="2">2</button>
+      <button class="vw-lb active" data-n="4">4</button>
+      <button class="vw-lb" data-n="6">6</button>
+      <button class="vw-lb" data-n="9">9</button>
+    </div>
   </div>
-  <div class="layout-picker" id="layoutPicker">
-    <button data-n="1">1</button>
-    <button data-n="2">2</button>
-    <button data-n="4" class="active">4</button>
-    <button data-n="6">6</button>
-    <button data-n="9">9</button>
+
+  <div id="vwGrid"></div>
+
+  <div class="vw-hint">
+    YouTube URL paste karo → Enter dabao → video <b>loop</b> mein chalega → <b>Views boost</b> hoga! 🚀
   </div>
+
 </div>
 
-<div class="grid" id="grid"></div>
-
-<div class="hint">Har screen mein YouTube video ka <b>URL</b> paste karo → Enter dabao → video loop mein chalega aur <b>views boost</b> hoga! Jitni zyada screens, utne zyada views. 🚀</div>
-
 <script>
-const grid = document.getElementById('grid');
-const layoutPicker = document.getElementById('layoutPicker');
-let count = 4;
-let panelState = {}; // idx -> {url, type}
+(function(){
+  const grid = document.getElementById('vwGrid');
+  const layouts = document.getElementById('vwLayouts');
+  let count = 4, state = {};
 
-function gridColumns(n){
-  if(n===1) return 1;
-  if(n===2) return 2;
-  if(n===4) return 2;
-  if(n===6) return 3;
-  if(n===9) return 3;
-  return 2;
-}
+  function cols(n){ return n<=2?n:n===4?2:3; }
 
-function extractYouTubeId(url){
-  const patterns = [
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/
-  ];
-  for(const p of patterns){
-    const m = url.match(p);
-    if(m) return m[1];
+  function ytId(url){
+    const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/);
+    return m ? m[1] : null;
   }
-  return null;
-}
 
-function isDirectVideo(url){
-  return /\.(mp4|webm|ogg|mov|m3u8)(\?.*)?$/i.test(url.split('#')[0]);
-}
+  function isVid(url){ return /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(url); }
 
-function loadIntoPanel(idx, rawUrl){
-  const body = document.getElementById('body-'+idx);
-  const led = document.getElementById('led-'+idx);
-  const url = rawUrl.trim();
-  if(!url){
-    body.innerHTML = placeholderHTML(idx);
-    led.classList.remove('live');
-    return;
-  }
-  const ytId = extractYouTubeId(url);
-  if(ytId){
-    body.innerHTML = `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=1&loop=1&playlist=${ytId}&rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+  function load(i, url){
+    const body = document.getElementById('vwb-'+i);
+    const led  = document.getElementById('vwl-'+i);
+    url = url.trim();
+    if(!url){
+      body.innerHTML = ph(i); led.classList.remove('live'); return;
+    }
+    const yt = ytId(url);
+    if(yt){
+      body.innerHTML = `<iframe src="https://www.youtube.com/embed/${yt}?autoplay=1&loop=1&playlist=${yt}&rel=0&mute=1" allow="autoplay;encrypted-media" allowfullscreen></iframe>`;
+    } else if(isVid(url)){
+      body.innerHTML = `<video src="${url}" autoplay loop muted playsinline controls></video>`;
+    } else {
+      body.innerHTML = `<iframe src="${url}" allow="autoplay;encrypted-media" allowfullscreen></iframe>`;
+    }
     led.classList.add('live');
-    return;
   }
-  if(isDirectVideo(url)){
-    body.innerHTML = `<video src="${url.replace(/"/g,'&quot;')}" controls loop autoplay muted playsinline></video>`;
-    led.classList.add('live');
-    return;
+
+  function ph(i){
+    return `<div class="vw-placeholder"><span class="big">▭</span>CH.${String(i+1).padStart(2,'0')} — URL paste karein</div>`;
   }
-  // fallback: try generic iframe embed (e.g. vimeo, drive preview links etc)
-  body.innerHTML = `<iframe src="${url.replace(/"/g,'&quot;')}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
-  led.classList.add('live');
-}
 
-function placeholderHTML(idx){
-  return `<div class="placeholder"><span class="big">▭</span>Feed CH.${String(idx+1).padStart(2,'0')} empty<br>URL paste karein niche</div>`;
-}
-
-function renderGrid(){
-  grid.style.gridTemplateColumns = `repeat(${gridColumns(count)}, 1fr)`;
-  grid.style.gridTemplateRows = count <= 2 ? '1fr' : `repeat(${Math.ceil(count/gridColumns(count))}, 1fr)`;
-  grid.innerHTML = '';
-  for(let i=0;i<count;i++){
-    const saved = panelState[i] || {url:''};
-    const panel = document.createElement('div');
-    panel.className = 'monitor';
-    panel.innerHTML = `
-      <div class="monitor-head">
-        <div class="ch-label"><span class="status-led" id="led-${i}"></span>CH.${String(i+1).padStart(2,'0')}</div>
-        <div class="url-form">
-          <input type="text" id="input-${i}" placeholder="Video URL paste karein..." value="${saved.url ? saved.url.replace(/"/g,'&quot;') : ''}">
-          <button onclick="applyUrl(${i})">▶</button>
-          <button onclick="clearPanel(${i})">✕</button>
+  function render(){
+    const c = cols(count);
+    grid.style.gridTemplateColumns = `repeat(${c},1fr)`;
+    grid.style.gridTemplateRows = count<=2 ? '70vh' : `repeat(${Math.ceil(count/c)},${count<=4?'40vh':'30vh'})`;
+    grid.innerHTML = '';
+    for(let i=0;i<count;i++){
+      const s = state[i]||{url:''};
+      const el = document.createElement('div');
+      el.className = 'vw-monitor';
+      el.innerHTML = `
+        <div class="vw-head">
+          <span class="vw-led" id="vwl-${i}"></span>
+          <span class="vw-ch">CH.${String(i+1).padStart(2,'0')}</span>
+          <div class="vw-form">
+            <input id="vwi-${i}" type="text" placeholder="YouTube / .mp4 URL..." value="${s.url?s.url.replace(/"/g,'&quot;'):''}">
+            <button onclick="vwPlay(${i})">▶</button>
+            <button onclick="vwClear(${i})">✕</button>
+          </div>
         </div>
-      </div>
-      <div class="screen-body" id="body-${i}">${placeholderHTML(i)}</div>
-    `;
-    grid.appendChild(panel);
-    if(saved.url) loadIntoPanel(i, saved.url);
+        <div class="vw-body" id="vwb-${i}">${ph(i)}</div>`;
+      grid.appendChild(el);
+      if(s.url) load(i, s.url);
+      document.getElementById('vwi-'+i).addEventListener('keydown', e=>{ if(e.key==='Enter') vwPlay(i); });
+    }
   }
-  // wire up enter key
-  for(let i=0;i<count;i++){
-    const inp = document.getElementById('input-'+i);
-    inp.addEventListener('keydown', (e)=>{
-      if(e.key === 'Enter') applyUrl(i);
-    });
-  }
-}
 
-function applyUrl(idx){
-  const inp = document.getElementById('input-'+idx);
-  const url = inp.value.trim();
-  panelState[idx] = {url};
-  loadIntoPanel(idx, url);
-}
+  window.vwPlay = i => { const v=document.getElementById('vwi-'+i).value; state[i]={url:v}; load(i,v); };
+  window.vwClear = i => { state[i]={url:''}; document.getElementById('vwi-'+i).value=''; load(i,''); };
 
-function clearPanel(idx){
-  panelState[idx] = {url:''};
-  document.getElementById('input-'+idx).value = '';
-  loadIntoPanel(idx, '');
-}
+  layouts.addEventListener('click', e=>{
+    const b = e.target.closest('button');
+    if(!b) return;
+    layouts.querySelectorAll('button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    count = parseInt(b.dataset.n);
+    render();
+  });
 
-layoutPicker.addEventListener('click', (e)=>{
-  const btn = e.target.closest('button');
-  if(!btn) return;
-  layoutPicker.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  count = parseInt(btn.dataset.n, 10);
-  renderGrid();
-});
+  render();
 
-renderGrid();
+  // Theme btn
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const btn = document.getElementById('themeBtn');
+    if(btn) btn.onclick = ()=>{
+      document.body.classList.toggle('dark');
+      btn.innerHTML = document.body.classList.contains('dark') ? '☀️' : '🌙';
+    };
+  });
+})();
 </script>
-
 </body>
 </html>
